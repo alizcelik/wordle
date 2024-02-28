@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import WordleBoard from './components/WordleBoard.vue'
 </script>
 
 <template>
-  <HelloWorld msg="Hello Vue 3 + Vite"/>
+  <WordleBoard msg="Hello Vue 3 + Vite"/>
 </template>
 
