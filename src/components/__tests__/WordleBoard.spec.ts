@@ -12,4 +12,16 @@ describe('WordleBoard', () => {
 
     expect(wrapper.text()).toContain(VICTORY_MESSAGE)
   })
+
+  test("a defeat message is displayed when the user makes incorrect guesses", async () => {
+    const wrapper = mount(WordleBoard, {props: {wordOfTheDay: "Testing"}})
+
+    const guessInput = wrapper.find('input[type="text"]')
+    await guessInput.setValue("Wrong")
+    await guessInput.trigger('keydown.enter')
+
+    expect(wrapper.text()).toContain("Better luck next time!")
+  })
+  test.todo("no  end-of-game message is displayed when the user has not made a guess yet")
+
 })
