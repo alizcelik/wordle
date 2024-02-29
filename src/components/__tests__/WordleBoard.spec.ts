@@ -45,4 +45,22 @@ describe('WordleBoard', () => {
 
     expect(console.warn).toHaveBeenCalled();
   })
+
+  it("if the word of the day is not all in uppercase, an error is emitted", async () => {
+    console.warn = vi.fn();
+
+    mount(WordleBoard, {props: {wordOfTheDay: "Tests"}})
+
+    expect(console.warn).toHaveBeenCalled();
+
+  })
+
+  it("if the word of the day is not a real English word, an error is emitted", async () => {
+    console.warn = vi.fn();
+
+    mount(WordleBoard, {props: {wordOfTheDay: "QWERT"}})
+
+    expect(console.warn).toHaveBeenCalled();
+
+  })
 })
