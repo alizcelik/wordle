@@ -34,4 +34,11 @@ describe('WordleBoard', () => {
     expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
   })
 
+  it("if a word of the day provided does not have exactly 5 letters, an warning emitted", async () => {
+    vi.spyOn(console, 'warn');
+
+    mount(WordleBoard, {props: {wordOfTheDay: "FLY"}})
+
+    expect(console.warn).toHaveBeenCalled();
+  })
 })
