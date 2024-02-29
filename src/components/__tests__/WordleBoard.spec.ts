@@ -39,12 +39,12 @@ describe('WordleBoard', () => {
   describe("Test suite for rules of the word of the day", () => {
     test.each(
         [
-            "FLY",
-            "Tests",
-            "QWERT"
+          {wordOfTheDay:"FLY",reason: "word-of-the-day must have 5 characters long"},
+          {wordOfTheDay:"Tests",reason: "word-of-the-day must be all uppercase letters"},
+          {wordOfTheDay:"QWERT",reason: "word-of-the-day must be a real word"},
         ]
     )
-    ("if '%s' provided, a warning emitted", async (wordOfTheDay) => {
+    ("Since $reason: $wordOfTheDay is invalid, therefore a warning must be emitted", async (wordOfTheDay) => {
       // const spy = vi.spyOn(console, 'warn');
       //
       // spy.mockImplementation(() => null);
