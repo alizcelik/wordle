@@ -37,6 +37,10 @@ describe('WordleBoard', () => {
   })
 
   describe("Test suite for rules of the word of the day", () => {
+    beforeEach(() => {
+      console.warn = vi.fn();
+    });
+
     test.each(
         [
           {wordOfTheDay:"FLY",reason: "word-of-the-day must have 5 characters long"},
@@ -44,12 +48,10 @@ describe('WordleBoard', () => {
           {wordOfTheDay:"QWERT",reason: "word-of-the-day must be a real word"},
         ]
     )
-    ("Since $reason: $wordOfTheDay is invalid, therefore a warning must be emitted", async (wordOfTheDay) => {
+    ("Since $reason: $wordOfTheDay is invalid, therefore a warning must be emitted", async ({wordOfTheDay}) => {
       // const spy = vi.spyOn(console, 'warn');
       //
       // spy.mockImplementation(() => null);
-
-      console.warn = vi.fn();
 
       mount(WordleBoard, {props: {wordOfTheDay: wordOfTheDay}})
 
@@ -57,8 +59,6 @@ describe('WordleBoard', () => {
     })
 
     test("no warning is emitted when the word of the day is valid", async () => {
-      console.warn = vi.fn();
-
       mount(WordleBoard, {props: {wordOfTheDay: "TESTS"}})
 
       expect(console.warn).not.toHaveBeenCalled();
