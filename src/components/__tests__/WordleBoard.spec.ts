@@ -37,34 +37,23 @@ describe('WordleBoard', () => {
   })
 
   describe("Test suite for rules of the word of the day", () => {
-    test("if a word of the day provided does not have exactly 5 letters, an warning emitted", async () => {
+    test.each(
+        [
+            "FLY",
+            "Tests",
+            "QWERT"
+        ]
+    )
+    ("if '%s' provided, a warning emitted", async (wordOfTheDay) => {
       // const spy = vi.spyOn(console, 'warn');
       //
       // spy.mockImplementation(() => null);
 
       console.warn = vi.fn();
 
-      mount(WordleBoard, {props: {wordOfTheDay: "FLY"}})
+      mount(WordleBoard, {props: {wordOfTheDay: wordOfTheDay}})
 
       expect(console.warn).toHaveBeenCalled();
-    })
-
-    test("if the word of the day is not all in uppercase, an error is emitted", async () => {
-      console.warn = vi.fn();
-
-      mount(WordleBoard, {props: {wordOfTheDay: "Tests"}})
-
-      expect(console.warn).toHaveBeenCalled();
-
-    })
-
-    test("if the word of the day is not a real English word, an error is emitted", async () => {
-      console.warn = vi.fn();
-
-      mount(WordleBoard, {props: {wordOfTheDay: "QWERT"}})
-
-      expect(console.warn).toHaveBeenCalled();
-
     })
 
     test("no warning is emitted when the word of the day is valid", async () => {
