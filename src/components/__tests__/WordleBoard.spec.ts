@@ -4,7 +4,7 @@ import {DEFEAT_MESSAGE, VICTORY_MESSAGE} from "../settings";
 import {beforeEach} from "vitest";
 
 describe('WordleBoard', () => {
-  let wordOfTheDay = "Testing";
+  let wordOfTheDay = "Testi";
   let wrapper: ReturnType<typeof mount>;
 
   beforeEach(() => {
@@ -35,7 +35,11 @@ describe('WordleBoard', () => {
   })
 
   it("if a word of the day provided does not have exactly 5 letters, an warning emitted", async () => {
-    vi.spyOn(console, 'warn');
+    // const spy = vi.spyOn(console, 'warn');
+    //
+    // spy.mockImplementation(() => null);
+
+    console.warn = vi.fn();
 
     mount(WordleBoard, {props: {wordOfTheDay: "FLY"}})
 
