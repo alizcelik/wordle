@@ -1,25 +1,56 @@
-<script setup lang="ts">
-import {DEFEAT_MESSAGE, VICTORY_MESSAGE, WORD_SIZE} from "./settings";
-import englishWords from "../englishWordsWith5Letters.json";
-import {computed, ref} from "vue";
-import GuessInput from "@/components/GuessInput.vue";
+<script lang="ts" setup>
+import {DEFEAT_MESSAGE, VICTORY_MESSAGE} from "@/settings"
+import englishWords from "@/englishWordsWith5Letters.json"
+import {ref} from "vue"
+import GuessInput from "@/components/GuessInput.vue"
 
 defineProps({
   wordOfTheDay: {
+    required: true,
     type: String,
     validator: (wordGiven: string) => englishWords.includes(wordGiven)
   }
 })
-
-const guessInProgress = ref<string|null>(null);
-const submittedGuess = ref("");
-
-
+const guessesSubmitted = ref<string[]>([])
 
 </script>
 
 <template>
-  <guess-input @submitted-guess="guess => submittedGuess = guess"/>
-  <p v-if="submittedGuess.length > 0"
-     v-text="submittedGuess.toUpperCase() === wordOfTheDay?.toUpperCase() ? VICTORY_MESSAGE : DEFEAT_MESSAGE"></p>
+  <main>
+    <guess-input @guess-submitted="guess => guessesSubmitted.push(guess)"/>
+    <p v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
+       class="end-of-game-message"
+       v-text="guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE"/>
+  </main>
+  <p class="hidden" v-if="guessesSubmitted"> {{ guessesSubmitted.length }}</p>
 </template>
+
+<style scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.end-of-game-message {
+  font-size: 3rem;
+  animation: end-of-game-message-animation 700ms forwards;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@keyframes end-of-game-message-animation {
+  0% {
+    opacity: 0;
+    transform: rotateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(2rem);
+  }
+}
+p.hidden {
+  display: none;
+}
+</style>
