@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import WordleBoard from '../WordleBoard.vue'
 import {DEFEAT_MESSAGE, VICTORY_MESSAGE} from "../settings";
-import {beforeEach} from "vitest";
+import {beforeEach, expect} from "vitest";
 
 describe('WordleBoard', () => {
   let wordOfTheDay = "Tests";
@@ -87,10 +87,12 @@ describe('WordleBoard', () => {
     })
 
     test("player guesses are limited to letters", async () => {
-      await playerSubmitGuess("12345")
+      await playerSubmitGuess("H3!RT")
 
+      console.log(wrapper.text());
       expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
       expect(wrapper.text()).not.toContain(VICTORY_MESSAGE);
+      expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toEqual("HRT");
     })
   })
 
