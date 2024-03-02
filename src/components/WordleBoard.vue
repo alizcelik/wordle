@@ -10,15 +10,18 @@ defineProps({
   }
 })
 
-const guessInProgress = ref("");
+const guessInProgress = ref<string|null>(null);
 const submittedGuess = ref("");
 
-const formattedGuessInProgress = computed({
-  get: () => guessInProgress.value,
-  set: (newValue: string) => guessInProgress.value = newValue
-      .slice(0, WORD_SIZE)
-      .toUpperCase()
-      .replace(/[^A-Z]/gi, "")
+const formattedGuessInProgress = computed<string>({
+  get: () => guessInProgress.value ?? "",
+  set: (newValue: string) => {
+    guessInProgress.value = null
+    guessInProgress.value = newValue
+        .slice(0, WORD_SIZE)
+        .toUpperCase()
+        .replace(/[^A-Z]/gi, "")
+  }
 });
 
 function onSubmit(){
