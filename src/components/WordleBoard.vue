@@ -2,6 +2,7 @@
 import {DEFEAT_MESSAGE, VICTORY_MESSAGE, WORD_SIZE} from "./settings";
 import englishWords from "../englishWordsWith5Letters.json";
 import {computed, ref} from "vue";
+import GuessInput from "@/components/GuessInput.vue";
 
 defineProps({
   wordOfTheDay: {
@@ -13,34 +14,12 @@ defineProps({
 const guessInProgress = ref<string|null>(null);
 const submittedGuess = ref("");
 
-const formattedGuessInProgress = computed<string>({
-  get: () => guessInProgress.value ?? "",
-  set: (newValue: string) => {
-    guessInProgress.value = null
-    guessInProgress.value = newValue
-        .slice(0, WORD_SIZE)
-        .toUpperCase()
-        .replace(/[^A-Z]/gi, "")
-  }
-});
 
-function onSubmit(){
-  if(!englishWords.includes(guessInProgress.value.toUpperCase())){
-    return;
-  }
-  submittedGuess.value = guessInProgress.value;
-}
+
 </script>
 
 <template>
-  <input type="text" v-model="formattedGuessInProgress"
-         maxlength="WORD_SIZE"
-         inputmode="text"
-         @keydown.enter="onSubmit">
+  <guess-input @submitted-guess="guess => submittedGuess = guess">
   <p v-if="submittedGuess.length > 0"
      v-text="submittedGuess.toUpperCase() === wordOfTheDay?.toUpperCase() ? VICTORY_MESSAGE : DEFEAT_MESSAGE"></p>
-  <p>Guess: {{ guessInProgress }}</p>
-  <p>Submitted Guess: {{ submittedGuess }}</p>
-  <p>Formatted Guess: {{ formattedGuessInProgress }}</p>
-  <p>Word of the day: {{ wordOfTheDay }}</p>
 </template>
