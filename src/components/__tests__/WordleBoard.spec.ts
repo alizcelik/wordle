@@ -89,7 +89,6 @@ describe('WordleBoard', () => {
     test("player guesses are limited to letters", async () => {
       await playerSubmitGuess("H3!RT")
 
-      console.log(wrapper.text());
       expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
       expect(wrapper.text()).not.toContain(VICTORY_MESSAGE);
       expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toEqual("HRT");
