@@ -4,7 +4,7 @@ import {DEFEAT_MESSAGE, VICTORY_MESSAGE} from "../settings";
 import {beforeEach} from "vitest";
 
 describe('WordleBoard', () => {
-  let wordOfTheDay = "Testi";
+  let wordOfTheDay = "Tests";
   let wrapper: ReturnType<typeof mount>;
 
   beforeEach(() => {
@@ -43,9 +43,9 @@ describe('WordleBoard', () => {
 
     test.each(
         [
-          {wordOfTheDay:"FLY",reason: "word-of-the-day must have 5 characters long"},
-          {wordOfTheDay:"Tests",reason: "word-of-the-day must be all uppercase letters"},
-          {wordOfTheDay:"QWERT",reason: "word-of-the-day must be a real word"},
+          {wordOfTheDay:"FLY", reason: "word-of-the-day must have 5 characters long"},
+          {wordOfTheDay:"Tests", reason: "word-of-the-day must be all uppercase letters"},
+          {wordOfTheDay:"QWERT", reason: "word-of-the-day must be a real word"},
         ]
     )
     ("Since $reason: $wordOfTheDay is invalid, therefore a warning must be emitted", async ({wordOfTheDay}) => {
@@ -73,9 +73,25 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).toContain(VICTORY_MESSAGE);
     })
 
-    test.todo("player guesses can only be submitted if they are real words")
-    test.todo("player guesses are case-insensitive")
-    test.todo("player guesses are limited to letters")
+    test("player guesses can only be submitted if they are real words", async () => {
+      await playerSubmitGuess("QWERT")
+
+      expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
+      expect(wrapper.text()).not.toContain(VICTORY_MESSAGE);
+    })
+
+    test("player guesses are case-insensitive", async () => {
+      await playerSubmitGuess(wordOfTheDay.toLowerCase())
+
+      expect(wrapper.text()).toContain(VICTORY_MESSAGE);
+    })
+
+    test("player guesses are limited to letters", async () => {
+      await playerSubmitGuess("12345")
+
+      expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE);
+      expect(wrapper.text()).not.toContain(VICTORY_MESSAGE);
+    })
   })
 
 })
