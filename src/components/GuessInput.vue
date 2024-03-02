@@ -23,7 +23,7 @@ const formattedGuessInProgress = computed<string>({
 });
 
 function onSubmit(){
-  if(!englishWords.includes(formattedGuessInProgress.value){
+  if(!englishWords.includes(formattedGuessInProgress.value)){
     return;
   }
   emit("submitted-guess", formattedGuessInProgress.value);

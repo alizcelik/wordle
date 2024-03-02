@@ -19,7 +19,7 @@ const submittedGuess = ref("");
 </script>
 
 <template>
-  <guess-input @submitted-guess="guess => submittedGuess = guess">
+  <guess-input @submitted-guess="guess => submittedGuess = guess"/>
   <p v-if="submittedGuess.length > 0"
      v-text="submittedGuess.toUpperCase() === wordOfTheDay?.toUpperCase() ? VICTORY_MESSAGE : DEFEAT_MESSAGE"></p>
 </template>
