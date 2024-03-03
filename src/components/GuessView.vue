@@ -56,4 +56,9 @@ li:not([data-letter=" "]) {
 p.hidden{
   display: none;
 }
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 </style>

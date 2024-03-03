@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import {DEFEAT_MESSAGE, VICTORY_MESSAGE} from "@/settings"
+import {DEFEAT_MESSAGE, MAX_GUESSES_COUNT, VICTORY_MESSAGE} from "@/settings"
 import englishWords from "@/englishWordsWith5Letters.json"
-import {ref} from "vue"
+import {computed, ref} from "vue"
 import GuessInput from "@/components/GuessInput.vue"
+import GuessView from "@/components/GuessView.vue";
 
-defineProps({
+const props = defineProps({
   wordOfTheDay: {
     required: true,
     type: String,
@@ -13,14 +14,19 @@ defineProps({
 })
 const guessesSubmitted = ref<string[]>([])
 
+const isGameOver = computed(() => guessesSubmitted.value.length === MAX_GUESSES_COUNT
+    || guessesSubmitted.value.includes(props.wordOfTheDay))
+
 </script>
 
 <template>
   <main>
     <ul>
       <li v-for="(guess, index) in guessesSubmitted"
-          :key="`${guess}-${index}`"
-          v-text="guess"/>
+          :key="`${guess}-${index}`">
+        <guess-view :guess="guess"/>
+      </li>
+
     </ul>
     <guess-input @guess-submitted="guess => guessesSubmitted.push(guess)"/>
     <p v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
@@ -45,6 +51,15 @@ main {
   text-align: center;
 }
 
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li{
+  margin-bottom: 0.25rem;
+}
 @keyframes end-of-game-message-animation {
   0% {
     opacity: 0;
