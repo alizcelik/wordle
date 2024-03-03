@@ -14,6 +14,11 @@ const props = defineProps({
 })
 const guessesSubmitted = ref<string[]>([])
 
+const countOfEmptyGuesses = computed(() => {
+  const guessesRemaining = MAX_GUESSES_COUNT - guessesSubmitted.value.length
+  return isGameOver.value ? guessesRemaining : guessesRemaining - 1
+})
+
 const isGameOver = computed(() => guessesSubmitted.value.length === MAX_GUESSES_COUNT
     || guessesSubmitted.value.includes(props.wordOfTheDay))
 
@@ -26,14 +31,19 @@ const isGameOver = computed(() => guessesSubmitted.value.length === MAX_GUESSES_
           :key="`${guess}-${index}`">
         <guess-view :guess="guess"/>
       </li>
-
+      <li>
+        <guess-input :disabled="isGameOver" @guess-submitted="guess => guessesSubmitted.push(guess)"/>
+      </li>
+      <li v-for="i in countOfEmptyGuesses" :key="`remaining-guess-${i}`">
+        <guess-view :guess="''"/>
+      </li>
     </ul>
-    <guess-input @guess-submitted="guess => guessesSubmitted.push(guess)"/>
+
     <p v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
        class="end-of-game-message"
        v-text="guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE"/>
   </main>
-  <p class="hidden" v-if="guessesSubmitted"> {{ guessesSubmitted.length }}</p>
+<!--  <p class="hidden" v-if="guessesSubmitted"> {{ guessesSubmitted.length }}</p>-->
 </template>
 
 <style scoped>

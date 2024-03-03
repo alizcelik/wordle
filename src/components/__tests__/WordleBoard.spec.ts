@@ -133,7 +133,7 @@ describe("WordleBoard", () => {
         const guesses = [
             "HELLO",
             "WORLD",
-            "TESTS",
+            "TIGHT",
             "WRONG",
             "RIGHT",
             "GUESS"
@@ -146,6 +146,29 @@ describe("WordleBoard", () => {
         for (const guess of guesses) {
             expect(wrapper.text()).toContain(guess)
         }
+    })
+
+    test("the player loses control after the max amount of guesses has been sent", async () => {
+        const guesses = [
+            "HELLO",
+            "WORLD",
+            "TIGHT",
+            "WRONG",
+            "RIGHT",
+            "GUESS"
+        ]
+
+        for (const guess of guesses) {
+            await playerSubmitsGuess(guess)
+        }
+
+        expect(wrapper.find<HTMLInputElement>("input[type=text]").element.disabled).toBe(true);
+    })
+
+    test("the player loses control after the word has been guessed", async () => {
+        await playerSubmitsGuess(wordOfTheDay)
+
+        expect(wrapper.find<HTMLInputElement>("input[type=text]").element.disabled).toBe(true);
     })
 })
 
