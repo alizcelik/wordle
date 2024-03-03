@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import {WORD_SIZE} from "@/settings"
-import englishWords from "@/englishWordsWith5Letters.json"
-import {computed, ref} from "vue"
 
 defineProps<{guess: string}>()
 
