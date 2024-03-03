@@ -122,6 +122,25 @@ describe("WordleBoard", () => {
             expect(wrapper.find<HTMLInputElement>("input[type=text]").element.value).toEqual("")
         })
     })
+
+    test("all previous guesses are displayed", async () => {
+        const guesses = [
+            "HELLO",
+            "WORLD",
+            "TESTS",
+            "WRONG",
+            "RIGHT",
+            "GUESS"
+        ]
+
+        for ( const guess of guesses) {
+            await playerSubmitsGuess(guess)
+        }
+
+        for (const guess of guesses) {
+            expect(wrapper.text()).toContain(guess)
+        }
+    })
 })
 
 

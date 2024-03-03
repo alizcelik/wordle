@@ -17,6 +17,11 @@ const guessesSubmitted = ref<string[]>([])
 
 <template>
   <main>
+    <ul>
+      <li v-for="(guess, index) in guessesSubmitted"
+          :key="`${guess}-${index}`"
+          v-text="guess"/>
+    </ul>
     <guess-input @guess-submitted="guess => guessesSubmitted.push(guess)"/>
     <p v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
        class="end-of-game-message"
